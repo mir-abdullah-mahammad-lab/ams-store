@@ -1,10 +1,15 @@
+'use client'
 import Image from 'next/image';
 import React from 'react';
 import logo from '../../public/compaly-logo.png'
 import Link from 'next/link';
+import { authClient } from '@/lib/auth-client';
 
 
 const Navbar = () => {
+    const {data: session } = authClient.useSession()
+    console.log('SESSION', session.user.name)
+
     return (
         <div>
             
@@ -25,6 +30,7 @@ const Navbar = () => {
      </ul>
   </div>
   <div className="navbar-end">
+    <p className='text-2xl text-red-400'> HELLO! {session.user.name}</p>
     <button className='btn btn-active'><Link href={'/sign-in'}>Sign-in</Link></button>
 
   </div>
