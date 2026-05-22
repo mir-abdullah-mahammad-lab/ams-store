@@ -3,8 +3,9 @@
 import {Button, Description, FieldError, Form, Input, Label, TextField} from "@heroui/react";
 import Navbar from '@/components/Navbar';
 import Link from "next/link";
+import { authClient } from "@/lib/auth-client";
 
-const onSubmit = (e) => {
+const onSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     const data = {};
@@ -15,18 +16,22 @@ const onSubmit = (e) => {
       data[key] = value.toString();
     });
     console.log('Submitted data:',data)
+    const {email, password} =data
 
+    const { data :res, error } = await authClient.signIn.email({
+    email: email, 
+    password: password, 
+    rememberMe: true,
+    callbackURL: "/",
+});
 
-    // alert(`Form submitted`);
-  };
+console.log('sign-in data', res, error)
+};
 
 
 
 const SignInPage = () => {
- 
-  
-
-    return (
+ return (
         <div>
             <Navbar></Navbar>
             <div className="h-full bg-amber-200 flex justify-center items-center  p-20 mx-auto">

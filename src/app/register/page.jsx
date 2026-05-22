@@ -1,22 +1,42 @@
 "use client";
+import {Button, Description, FieldError, Form, Input, Label, TextField} from "@heroui/react";
+import Navbar from '@/components/Navbar';
+import { authClient } from "@/lib/auth-client";
     
-    import {Button, Description, FieldError, Form, Input, Label, TextField} from "@heroui/react";
-    import Navbar from '@/components/Navbar';
-    
-    const onSubmit = (e) => {
+    const onSubmit = async (e) => {
         e.preventDefault();
         const formData = new FormData(e.currentTarget);
-        const data = {};
+        const d = {};
     
     
         // Convert FormData to plain object
         formData.forEach((value, key) => {
-          data[key] = value.toString();
+          d[key] = value.toString();
         });
-        console.log('Submitted data:',data)
+        const {name, email, password} = d;
+        console.log('Submitted data:',email, password)
+
+        const { data, error } = await authClient.signUp.email({
+          name: name,
+          email:email, 
+          password: password, 
+          callbackURL: "/",
+        });
+
+        console.log('emaildata',data, error)
+
+//  if({data}){
+//   alert('sign-up succesfully')
+//  }
+
+//  if({error}){
+//   alert('ERROR... SIGN-UP AGAIN ')
+//  }
+
+
     
     
-        // alert(`Form submitted`);
+       
       };
 
 const RegisterPage = () => {
@@ -27,6 +47,22 @@ const RegisterPage = () => {
                 <h2 className="text-4xl text-center text-[#8a6aa4] p-10">Register your account</h2>
                 <div className="flex justify-center items-center  p-20 mx-auto">
                               <Form className="flex w-96 flex-col gap-4" onSubmit={onSubmit}>
+
+                                          <TextField
+            isRequired
+            name="name"
+            validate={(value) => {
+              if (value.length < 3) {
+                return "Name must be at least 3 characters";
+              }
+              return null;
+            }}
+          >
+            <Label>Name</Label>
+            <Input placeholder="John Doe" />
+            <FieldError />
+          </TextField>
+
           <TextField
             isRequired
             name="email"

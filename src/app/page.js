@@ -15,7 +15,7 @@ export default function Home() {
     alt={"Company logo"}
     height={200}
     width={200} className=""></Image>
-    <h2 className="text-2xl text-amber-100">Summer Sale !!! Flat 25% Off on all items </h2>
+    <h2 className="text-2xl text-gray-950 italic">Summer Sale !!! Flat 25% Off on all items </h2>
      </div>
      {/* </Marquee> */}
       
